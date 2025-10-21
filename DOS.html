@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DoS Attack Simulation</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* DoS specific styles */
+    .dos-container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
+    }
+
+    .dos-container h1 {
+      color: #00d4ff;
+      text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .dos-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 15px 30px;
+      background: linear-gradient(45deg, #e74c3c, #c0392b);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(45deg, #c0392b, #e74c3c);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+    }
+
+    .btn.stop-btn {
+      background: linear-gradient(45deg, #27ae60, #2ecc71);
+    }
+
+    .btn.stop-btn:hover {
+      background: linear-gradient(45deg, #2ecc71, #27ae60);
+      box-shadow: 0 8px 20px rgba(39, 174, 96, 0.4);
+    }
+
+    .alert {
+      margin: 20px 0;
+      background: rgba(231, 76, 60, 0.9);
+      border: 2px solid #e74c3c;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+      display: none;
+    }
+
+    .log {
+      margin: 20px 0;
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      border-radius: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: #e0e0e0;
+      box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
+    }
+
+    .log span {
+      display: block;
+      margin-bottom: 8px;
+      color: #e0e0e0;
+    }
+
+    .log span[style*="color: red"] {
+      color: #e74c3c !important;
+      font-weight: bold;
+    }
+
+    .log span[style*="color: green"] {
+      color: #27ae60 !important;
+      font-weight: bold;
+    }
+
+    .info-card {
+      background: rgba(0, 212, 255, 0.1);
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      color: #e0e0e0;
+      padding: 25px;
+      margin: 30px 0;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
+      text-align: left;
+    }
+
+    .info-card h2 {
+      color: #00d4ff;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+    }
+
+    .info-card h3 {
+      color: #00d4ff;
+      font-size: 1.2rem;
+      margin: 20px 0 10px 0;
+    }
+
+    .info-card p {
+      color: #b0b0b0;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .info-card ul {
+      margin-left: 20px;
+    }
+
+    .info-card li {
+      color: #b0b0b0;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .info-card b {
+      color: #00d4ff;
+      font-weight: bold;
+    }
+
+    .dos-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .home-btn {
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      background: rgba(0, 212, 255, 0.1);
+      color: #00d4ff;
+      border: 2px solid #00d4ff;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .home-btn:hover {
+      background: #00d4ff;
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <i class="fas fa-shield-alt"></i> Cybersecurity simulations and notes
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html#about"><i class="fas fa-info-circle"></i> About</a></li>
+        <li><a href="index.html#cards"><i class="fas fa-tasks"></i> Simulations</a></li>
+        <li><a href="index.html#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+      </ul>
+    </nav>
+    <div class="welcome">
+        <h1><i class="fas fa-ban"></i> DoS Attack Simulation</h1>
+        <p>
+          <i class="fas fa-bug"></i> Experience how DoS attacks overwhelm servers with excessive traffic in this interactive simulation.
+        </p>
+      </div>      
+  </header>
+
+  <main>
+    <div class="dos-container">
+      <h1><i class="fas fa-server"></i> Server Attack Simulation</h1>
+      <p>Click the button below to simulate a DoS attack by flooding the server with repetitive requests.</p>
+      
+      <div class="dos-buttons">
+        <button class="btn" onclick="simulateDoS()"><i class="fas fa-play"></i> Start Attack</button>
+        <button class="btn stop-btn" onclick="stopDoS()"><i class="fas fa-stop"></i> Stop Attack</button>
+      </div>
+
+      <div class="alert" id="alert"><i class="fas fa-exclamation-triangle"></i> Warning: DoS attack in progress! High server load detected.</div>
+
+      <div class="log" id="log"></div>
+
+      <!-- Info Card -->
+      <div class="info-card">
+        <h2><i class="fas fa-question-circle"></i> What is a DoS Attack?</h2>
+        <p>A Denial of Service (DoS) attack aims to disrupt the normal functioning of a website or server by overwhelming it with a flood of requests, rendering it unavailable to legitimate users.</p>
+        <h3><i class="fas fa-cogs"></i> Working of This Simulation:</h3>
+        <ul>
+          <li><b>Step 1:</b> When you click "Start Attack," a script repeatedly sends simulated requests to the server using an infinite loop (setInterval).</li>
+          <li><b>Step 2:</b> Each request is logged in real-time in the "Log" section, demonstrating the increasing load.</li>
+          <li><b>Step 3:</b> A warning message appears, indicating high server load as the attack progresses.</li>
+          <li><b>Step 4:</b> Clicking "Stop Attack" halts the simulation, mimicking the mitigation of a DoS attack.</li>
+        </ul>
+        <h3><i class="fas fa-shield-alt"></i> Real-World Implications:</h3>
+        <p>In real-world scenarios, DoS attacks are often mitigated using rate-limiting, traffic filtering, and distributed systems to handle unexpected surges in requests.</p>
+      </div>
+
+      <!-- Home Button -->
+      <div class="dos-buttons">
+        <a href="simulated-attacks.html" class="home-btn"><i class="fas fa-home"></i> Go to Home</a>
+      </div>
+    </div>
+  </main>
+
+  <footer id="contact">
+    <p>This is made by ICRC Delegation for Cyberspace</p>
+  </footer>
+
+  <script>
+    let intervalId; // To manage the attack simulation interval
+    let requestCount = 0; // Counter to track the number of requests
+    const logElement = document.getElementById("log");
+    const alertElement = document.getElementById("alert");
+
+    // Function to simulate DoS attack
+    function simulateDoS() {
+      if (intervalId) {
+        alert("Attack already in progress!");
+        return;
+      }
+
+      alertElement.style.display = "block"; // Show the warning message
+
+      // Simulate sending repetitive requests
+      intervalId = setInterval(() => {
+        requestCount++;
+        const requestTime = new Date().toLocaleTimeString();
+        logElement.innerHTML += `<span>Request ${requestCount} sent at ${requestTime}</span>`;
+
+        // Mimic high server load
+        if (requestCount % 50 === 0) {
+          logElement.innerHTML += `<span style="color: red;">Server load increasing!</span>`;
+        }
+
+        // Keep log scrollable
+        logElement.scrollTop = logElement.scrollHeight;
+      }, 100); // Sending requests every 100ms
+    }
+
+    // Function to stop the attack
+    function stopDoS() {
+      if (!intervalId) {
+        alert("No attack in progress to stop!");
+        return;
+      }
+
+      clearInterval(intervalId); // Stop the repetitive requests
+      intervalId = null;
+      alertElement.style.display = "none"; // Hide the warning message
+      logElement.innerHTML += `<span style="color: green;">DoS attack stopped at ${new Date().toLocaleTimeString()}</span>`;
+    }
+  </script>
+
+</body>
+</html>

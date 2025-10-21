@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adware Simulation</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Adware specific styles */
+    .adware-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
+    }
+
+    .adware-container h1 {
+      color: #00d4ff;
+      text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .article-card {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 10px;
+      padding: 25px;
+      margin: 20px 0;
+      box-shadow: 0 4px 15px rgba(0, 212, 255, 0.1);
+    }
+
+    .article-card h3 {
+      color: #00d4ff;
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+
+    .article-card p {
+      color: #b0b0b0;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    /* Fake Ad Styling */
+    .ad-popup {
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      color: #e0e0e0;
+      padding: 25px;
+      border-radius: 15px;
+      border: 2px solid rgba(0, 212, 255, 0.5);
+      box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+      position: absolute;
+      display: none;
+      width: 300px;
+      text-align: center;
+      z-index: 100;
+      animation: popupPulse 0.5s ease-in-out;
+    }
+
+    @keyframes popupPulse {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .ad-popup h3 {
+      color: #00d4ff;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+    }
+
+    .ad-popup p {
+      color: #b0b0b0;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .ad-popup button {
+      padding: 12px 20px;
+      background: linear-gradient(45deg, #00d4ff, #0099cc);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      margin: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .ad-popup button:hover {
+      background: linear-gradient(45deg, #0099cc, #00d4ff);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+    }
+
+    .close-btn {
+      background: linear-gradient(45deg, #e74c3c, #c0392b);
+      color: white;
+      font-size: 1rem;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: linear-gradient(45deg, #c0392b, #e74c3c);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+    }
+
+    /* Explanation card styling */
+    .explanation-card {
+      background: rgba(0, 212, 255, 0.1);
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      color: #e0e0e0;
+      padding: 25px;
+      margin: 30px 0;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
+      text-align: left;
+    }
+
+    .explanation-card h4 {
+      color: #00d4ff;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+    }
+
+    .explanation-card p {
+      color: #b0b0b0;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .adware-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .trigger-ad-btn {
+      padding: 15px 30px;
+      background: linear-gradient(45deg, #e67e22, #d35400);
+      color: white;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+
+    .trigger-ad-btn:hover {
+      background: linear-gradient(45deg, #d35400, #e67e22);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(230, 126, 34, 0.4);
+    }
+
+    .stop-btn {
+      padding: 15px 30px;
+      background: linear-gradient(45deg, #e74c3c, #c0392b);
+      color: white;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+
+    .stop-btn:hover {
+      background: linear-gradient(45deg, #c0392b, #e74c3c);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+    }
+
+    .home-btn, .refresh-btn {
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      background: rgba(0, 212, 255, 0.1);
+      color: #00d4ff;
+      border: 2px solid #00d4ff;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .home-btn:hover, .refresh-btn:hover {
+      background: #00d4ff;
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <i class="fas fa-shield-alt"></i> Cybersecurity simulations and notes
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html#about"><i class="fas fa-info-circle"></i> About</a></li>
+        <li><a href="index.html#cards"><i class="fas fa-tasks"></i> Simulations</a></li>
+        <li><a href="index.html#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+      </ul>
+    </nav>
+    <div class="welcome">
+        <h1><i class="fas fa-ad"></i> Adware Simulation</h1>
+        <p>
+          <i class="fas fa-bug"></i> Experience how adware displays unwanted advertisements and disrupts user experience in this interactive simulation.
+        </p>
+      </div>      
+  </header>
+
+  <main>
+    <div class="adware-container">
+      <!-- Article Section simulating a website -->
+      <div class="article-card">
+        <h3><i class="fas fa-newspaper"></i> Important Article</h3>
+        <p>
+          Adware is a type of malware that forces users to view unwanted advertisements, often leading to a poor user experience. Attackers use adware to generate revenue through these pop-up ads, which can be invasive and disruptive. Below is an example of a simulated adware attack.
+        </p>
+      </div>
+
+      <!-- Buttons to trigger and stop ads -->
+      <div class="adware-buttons">
+        <button class="trigger-ad-btn" onclick="startAdware()"><i class="fas fa-play"></i> Click Here to See Adware</button>
+        <button class="stop-btn" id="stopBtn" onclick="stopAdware()"><i class="fas fa-stop"></i> Stop Pop-ups</button>
+      </div>
+
+      <!-- Explanation of Adware -->
+      <div class="explanation-card">
+        <h4><i class="fas fa-question-circle"></i> What is Adware?</h4>
+        <p>Adware is a type of software that displays unwanted advertisements on your device, usually without your consent. It can generate revenue for the attackers by forcing users to view these ads. In this simulation, you can see how attackers display fake ads on a webpage and trick users into interacting with them.</p>
+      </div>
+
+      <!-- Buttons to go back to Home and Refresh the page -->
+      <div class="adware-buttons">
+        <a href="try-now.html" class="home-btn"><i class="fas fa-home"></i> Go to Home</a>
+        <button class="refresh-btn" onclick="refreshPage()"><i class="fas fa-redo"></i> Refresh</button>
+      </div>
+    </div>
+  </main>
+
+  <footer id="contact">
+    <p>This is made by ICRC Delegation for Cyberspace</p>
+  </footer>
+
+  <script>
+    var adInterval;
+
+    // Array of random ad messages
+    const messages = [
+      "You've won a $100 gift card! Click below to claim it!",
+      "Congratulations! You are the 1,000th visitor. Claim your reward now.",
+      "Special offer: Click here to get a free iPhone 13!",
+      "You've unlocked a surprise prize! Don't miss out, click now.",
+      "Hurry! Your free vacation is waiting. Claim your prize here!",
+      "Congratulations! You're eligible for a free trial. Act fast!"
+    ];
+
+    // Function to start displaying random ads at random positions
+    function startAdware() {
+      // Clear any existing interval
+      if (adInterval) {
+        clearInterval(adInterval);
+      }
+      
+      // Reset stop button
+      var stopBtn = document.getElementById("stopBtn");
+      stopBtn.disabled = false;
+      stopBtn.innerHTML = '<i class="fas fa-stop"></i> Stop Pop-ups';
+      stopBtn.style.background = 'linear-gradient(45deg, #e74c3c, #c0392b)';
+      
+      adInterval = setInterval(function() {
+        // Create a new popup div
+        var ad = document.createElement("div");
+        ad.classList.add("ad-popup");
+
+        // Set a random message from the messages array
+        ad.innerHTML = "<h3>Congratulations!</h3><p>" + messages[Math.floor(Math.random() * messages.length)] + "</p><button onclick='closeAd()'>Claim Prize</button><button class='close-btn' onclick='closeAd()'>Close</button>";
+
+        // Position the ad randomly on the screen
+        ad.style.top = Math.random() * 80 + "%"; // Random top position
+        ad.style.left = Math.random() * 80 + "%"; // Random left position
+
+        // Display the popup
+        document.body.appendChild(ad);
+        ad.style.display = 'block';
+      }, 1000);  // Pop-up appears every second
+    }
+
+    // Function to stop the pop-ups
+    function stopAdware() {
+      clearInterval(adInterval);  // Stop creating pop-ups
+      
+      // Remove all existing popups
+      var ads = document.querySelectorAll(".ad-popup");
+      ads.forEach(function(ad) {
+        ad.remove();  // Remove the popup from DOM
+      });
+      
+      // Update button state
+      var stopBtn = document.getElementById("stopBtn");
+      stopBtn.disabled = true;
+      stopBtn.innerHTML = '<i class="fas fa-check"></i> Pop-ups Stopped';
+      stopBtn.style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
+      
+      // Re-enable after 3 seconds
+      setTimeout(function() {
+        stopBtn.disabled = false;
+        stopBtn.innerHTML = '<i class="fas fa-stop"></i> Stop Pop-ups';
+        stopBtn.style.background = 'linear-gradient(45deg, #e74c3c, #c0392b)';
+      }, 3000);
+    }
+
+    // Function to close a specific ad
+    function closeAd() {
+      var ads = document.querySelectorAll(".ad-popup");
+      ads.forEach(function(ad) {
+        ad.style.display = 'none';
+      });
+    }
+
+    // Function to refresh the page
+    function refreshPage() {
+      location.reload();
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phishing Attack Simulation</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Phishing specific styles */
+    .phishing-container {
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
+    }
+
+    .phishing-container h1 {
+      color: #00d4ff;
+      text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin: 30px 0;
+    }
+    
+    .login-form input {
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      border-radius: 10px;
+      color: #e0e0e0;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .login-form input:focus {
+      outline: none;
+      border-color: #00d4ff;
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+    }
+    
+    .login-form input::placeholder {
+      color: #b0b0b0;
+    }
+    
+    .login-form button {
+      background: linear-gradient(45deg, #00d4ff, #0099cc);
+      color: #000;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .login-form button:hover {
+      background: linear-gradient(45deg, #0099cc, #00d4ff);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
+    }
+    
+    .alert {
+      display: none;
+      background: rgba(231, 76, 60, 0.9);
+      border: 2px solid #e74c3c;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+      animation: fadeIn 1s;
+    }
+    
+    .credential-box {
+      display: none;
+      background: rgba(0, 0, 0, 0.7);
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      color: #e0e0e0;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+      font-family: 'Courier New', monospace;
+      box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
+    }
+    
+    .credential-box p {
+      margin: 8px 0;
+      color: #e0e0e0;
+    }
+    
+    .explanation-card {
+      background: rgba(0, 212, 255, 0.1);
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      color: #e0e0e0;
+      padding: 25px;
+      margin: 30px 0;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
+      text-align: left;
+    }
+    
+    .explanation-card h4 {
+      color: #00d4ff;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+    }
+    
+    .explanation-card p {
+      color: #b0b0b0;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    
+    .explanation-card strong {
+      color: #00d4ff;
+      font-weight: bold;
+    }
+
+    .phishing-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .home-btn {
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      background: rgba(0, 212, 255, 0.1);
+      color: #00d4ff;
+      border: 2px solid #00d4ff;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .home-btn:hover {
+      background: #00d4ff;
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+    
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <i class="fas fa-shield-alt"></i> Cybersecurity simulations and notes
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html#about"><i class="fas fa-info-circle"></i> About</a></li>
+        <li><a href="index.html#cards"><i class="fas fa-tasks"></i> Simulations</a></li>
+        <li><a href="index.html#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+      </ul>
+    </nav>
+    <div class="welcome">
+        <h1><i class="fas fa-fish"></i> Phishing Attack Simulation</h1>
+        <p>
+          <i class="fas fa-bug"></i> Experience how phishing attacks trick users into revealing sensitive information in this interactive simulation.
+        </p>
+      </div>      
+  </header>
+
+  <main>
+    <div class="phishing-container">
+      <h1><i class="fas fa-user-lock"></i> Enter your credentials</h1>
+
+      <p><i class="fas fa-user-lock"></i> Enter your username and password to proceed</p>
+
+      <form class="login-form" onsubmit="handleLogin(event)">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+      </form>
+
+      <div id="alertMessage" class="alert"><i class="fas fa-exclamation-triangle"></i> Warning: This was a phishing attempt. Your data has been recorded!</div>
+
+      <div id="credentials" class="credential-box">
+        <p><i class="fas fa-key"></i> Recorded Credentials:</p>
+        <p><strong><i class="fas fa-user"></i> Username:</strong> <span id="user"></span></p>
+        <p><strong><i class="fas fa-lock"></i> Password:</strong> <span id="pass"></span></p>
+      </div>
+
+      <!-- Explanation Card -->
+      <div class="explanation-card">
+        <h4><i class="fas fa-question-circle"></i> What is a Phishing Attack?</h4>
+        <p>Phishing attacks trick users into revealing sensitive information by pretending to be a trustworthy source. In this simulation, you interacted with a fake login form. The attacker collects sensitive data like usernames and passwords when users enter their details into fake forms.</p>
+        <p><strong>Always be cautious about where you enter your credentials!</strong> Verify that the website is legitimate and secure before entering any sensitive information.</p>
+      </div>
+
+      <!-- Home Button -->
+      <div class="phishing-buttons">
+        <a href="simulated-attacks.html" class="home-btn"><i class="fas fa-home"></i> Go to Home</a>
+      </div>
+    </div>
+  </main>
+
+  <footer id="contact">
+    <p>This is made by ICRC Delegation for Cyberspace</p>
+  </footer>
+
+
+  <script>
+    // Handle form submission and simulate phishing behavior
+    function handleLogin(event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Capture the user data
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+
+      // Simulate sending data to the attacker
+      console.log("Captured Data: Username - " + username + ", Password - " + password);
+
+      // Display the phishing warning message
+      document.getElementById('alertMessage').style.display = 'block';
+
+      // Display the recorded credentials
+      document.getElementById('user').innerText = username;
+      document.getElementById('pass').innerText = password;
+      document.getElementById('credentials').style.display = 'block';
+
+      // Optional: Redirect or refresh after a delay
+      setTimeout(function() {
+        document.getElementById('alertMessage').style.display = 'none';
+        alert("Your data has been captured. Be aware of phishing attempts in the future.");
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protect Yourself - Best Practices for Online Safety</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Protect Yourself specific styles */
+    .protect-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
+    }
+
+    .protect-container h1 {
+      color: #00d4ff;
+      text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .resources {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .protect-article {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .protect-article::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .protect-article:hover::before {
+      left: 100%;
+    }
+
+    .protect-article:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0, 212, 255, 0.6);
+      box-shadow: 0 12px 35px rgba(0, 212, 255, 0.3);
+    }
+
+    .protect-article h2 {
+      color: #00d4ff;
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+    }
+
+    .protect-article p {
+      color: #b0b0b0;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .protect-article ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .protect-article ul li {
+      color: #e0e0e0;
+      margin-bottom: 12px;
+      padding-left: 25px;
+      position: relative;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .protect-article ul li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #00d4ff;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .protect-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .home-btn, .refresh-btn {
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      background: rgba(0, 212, 255, 0.1);
+      color: #00d4ff;
+      border: 2px solid #00d4ff;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .home-btn:hover, .refresh-btn:hover {
+      background: #00d4ff;
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <i class="fas fa-shield-alt"></i> Cybersecurity simulations and notes
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html#about"><i class="fas fa-info-circle"></i> About</a></li>
+        <li><a href="index.html#cards"><i class="fas fa-tasks"></i> Simulations</a></li>
+        <li><a href="index.html#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+      </ul>
+    </nav>
+    <div class="welcome">
+        <h1><i class="fas fa-shield-alt"></i> Protect Yourself Online</h1>
+        <p>
+          <i class="fas fa-bug"></i> Learn best practices to stay safe and secure online from potential threats.
+        </p>
+      </div>      
+  </header>
+
+  <main>
+    <div class="protect-container">
+      <h1><i class="fas fa-lock"></i> Cybersecurity Best Practices</h1>
+      
+      <section class="resources">
+        <article class="protect-article">
+          <h2><i class="fas fa-key"></i> Use Strong Passwords</h2>
+          <p>
+            Strong passwords are essential for protecting your accounts and personal information online.
+          </p>
+          <ul>
+            <li>Use a combination of uppercase and lowercase letters, numbers, and special characters.</li>
+            <li>Do not use easily guessable passwords, such as your name or birthdate.</li>
+            <li>Consider using a password manager to generate and store unique passwords for each account.</li>
+          </ul>
+        </article>
+        
+        <article class="protect-article">
+          <h2><i class="fas fa-shield-alt"></i> Enable Two-Factor Authentication</h2>
+          <p>
+            Two-factor authentication (2FA) adds an extra layer of security by requiring a second form of verification.
+          </p>
+          <ul>
+            <li>Enable 2FA on all important accounts, such as email, banking, and social media.</li>
+            <li>Use an authenticator app or text message to receive the second verification code.</li>
+            <li>Never share your 2FA code with anyone.</li>
+          </ul>
+        </article>
+        
+        <article class="protect-article">
+          <h2><i class="fas fa-fish"></i> Be Cautious of Phishing Scams</h2>
+          <p>
+            Phishing attacks attempt to trick you into revealing sensitive information by pretending to be trustworthy entities.
+          </p>
+          <ul>
+            <li>Never click on suspicious links in emails or text messages.</li>
+            <li>Verify the legitimacy of emails by checking the sender's address.</li>
+            <li>Do not download attachments from unknown or untrusted sources.</li>
+          </ul>
+        </article>
+        
+        <article class="protect-article">
+          <h2><i class="fas fa-sync-alt"></i> Keep Your Software Updated</h2>
+          <p>
+            Regular software updates fix security vulnerabilities and protect your devices from malicious attacks.
+          </p>
+          <ul>
+            <li>Enable automatic updates on your operating system and applications.</li>
+            <li>Regularly check for updates on your devices, including phones and tablets.</li>
+            <li>Install updates as soon as they are released to ensure your system is protected.</li>
+          </ul>
+        </article>
+        
+        <article class="protect-article">
+          <h2><i class="fas fa-wifi"></i> Use Secure Wi-Fi Networks</h2>
+          <p>
+            Public Wi-Fi networks can be a target for hackers. Make sure to secure your connection.
+          </p>
+          <ul>
+            <li>Use a Virtual Private Network (VPN) to encrypt your internet traffic when using public Wi-Fi.</li>
+            <li>Avoid accessing sensitive information, such as online banking, on unsecured networks.</li>
+            <li>Ensure your home Wi-Fi network is password-protected with WPA3 encryption.</li>
+          </ul>
+        </article>
+        
+        <article class="protect-article">
+          <h2><i class="fas fa-eye"></i> Monitor Your Accounts Regularly</h2>
+          <p>
+            Regularly monitoring your accounts and credit reports can help you detect suspicious activity early.
+          </p>
+          <ul>
+            <li>Check your bank and credit card statements regularly for any unauthorized transactions.</li>
+            <li>Set up alerts for transactions and changes to your accounts.</li>
+            <li>Consider using credit monitoring services to get notified of any potential fraud or identity theft.</li>
+          </ul>
+        </article>
+      </section>
+
+      <!-- Home and Refresh Buttons -->
+      <div class="protect-buttons">
+        <a href="index.html" class="home-btn"><i class="fas fa-home"></i> Go to Home</a>
+        <button class="refresh-btn" onclick="refreshPage()"><i class="fas fa-redo"></i> Refresh</button>
+      </div>
+    </div>
+  </main>
+
+  <footer id="contact">
+    <p>This is made by ICRC Delegation for Cyberspace</p>
+  </footer>
+
+  <script>
+    // Function to refresh the page
+    function refreshPage() {
+      location.reload();
+    }
+  </script>
+</body>
+</html>
